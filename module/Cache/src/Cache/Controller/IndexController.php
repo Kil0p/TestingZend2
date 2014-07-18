@@ -14,6 +14,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Serializer\Serializer;
 use Zend\View\Model\ViewModel;
 use Zend\Cache\Storage\StorageInterface as CacheStorageInterface;
+use Zend\View\View;
 
 class IndexController extends AbstractActionController
 {
@@ -58,6 +59,21 @@ class IndexController extends AbstractActionController
 
     public function memcacheAction(){
 
+
+        exec('tasklist /FI "IMAGENAME eq memcache.exe" | findstr "memcache.exe"', $output, $return);
+
+        $navigationView = new ViewModel();
+        $navigationView->setTemplate('cache/cache-navigation');
+
+        $view = new ViewModel();
+        $view->addChild($navigationView, 'navigation');
+
+        if($return == 1){
+            $view->setVariables(array(
+                'error' => 'You need to run service "memcache.exe" in your system.',
+            ));
+            return $view;
+        }
         $cache = $this->cacheMemcache;
         $cacheOptions = $cache->getOptions();
         $cacheID = $cacheOptions->getResourceId();
@@ -76,14 +92,12 @@ class IndexController extends AbstractActionController
         if(is_object($result)){
            $serializedResult = Serializer::serialize($result);
         }
-        $navigationView = new ViewModel();
-        $navigationView->setTemplate('cache/cache-navigation');
-        $view = new ViewModel(array(
+
+        $view->setVariables(array(
             'version' => $version,
             'result' => $serializedResult,
             'success' => $success,
         ));
-        $view->addChild($navigationView, 'navigation');
         return $view;
     }
 }
