@@ -12,5 +12,38 @@
  */
 
 return array(
-    // ...
+    'caches' => array(
+        'cache_filesystem' => array(
+            'adapter' => array(
+                'name' => 'filesystem',
+                'options' => array(
+                    'namespace' => 'test',
+                    'cache_dir' => './data/cache'
+                )
+            ),
+            'plugins' => array(
+                'exception_handler' => array(
+                    'throw_exceptions' => true,
+                ),
+            )
+        ),
+        'cache_memcache' => array(
+            'adapter' => array(
+                'name' => 'memcache',
+                'options' => array(
+                    'servers' => array(
+                       array(
+                           'localhost',11211,
+                       ),
+                    ),
+                    'namespace' => 'test',
+                ),
+            ),
+            'plugins' => array(
+                'exception_handler' => array(
+                    'throw_exceptions' => true,
+                ),
+            ),
+        ),
+    ),
 );

@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Joanna
- * Date: 11.07.14
- * Time: 20:25
+ * User: asia
+ * Date: 16.07.14
+ * Time: 00:52
  */
 
 namespace Application\Controller\Factory;
@@ -15,6 +15,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class IndexControllerFactory implements FactoryInterface{
 
+
     /**
      * Create service
      *
@@ -23,9 +24,6 @@ class IndexControllerFactory implements FactoryInterface{
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
-        $applicationLocator = $serviceLocator->getServiceLocator();
-        $cache = $applicationLocator->get('cache');
-        $controller = new IndexController($cache);
-        return $controller;
+        return new IndexController();
     }
 }

@@ -1,0 +1,6 @@
+<?php
+foreach ($this->container as $page) {
+    if($page->isActive()){
+        echo $page->getLabel();
+    }
+}
